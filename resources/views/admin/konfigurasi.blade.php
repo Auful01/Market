@@ -186,6 +186,7 @@ $.ajax({
                 },
                 success : function (data) {
                     $('#modal-tambah-komoditas').modal('hide')
+                    window.location.reload()
                     Swal.fire({
                     title: 'Sukses!',
                     text: 'Komoditas baru telah ditambahkan',
@@ -195,7 +196,8 @@ $.ajax({
                     confirmButtonText : false,
                     timerProgressBar : true
                 })
-                    setTimeout(loadKomoditas, 2000);
+
+                //
                     $('#form-komoditas').reset()
                 }
             })
@@ -231,7 +233,7 @@ $.ajax({
                     timerProgressBar : true
                 })
                     // setTimeout(loadKategori, 2000);
-                    // $('#form-kategori').reset()
+                    $('#form-kategori').reset()
                 }
             })
         })
