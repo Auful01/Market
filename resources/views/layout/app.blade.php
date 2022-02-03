@@ -12,7 +12,7 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-5">
-        <a class="navbar-brand" href="#"><img src="{{asset('img/serang.png')}}"  style="max-height: 50px" alt=""></a>
+        <a class="navbar-brand" href="#"><img src="{{asset('img/serang.png')}}"  style="max-height: 50px" alt=""> PEMERINTAH KOTA SERANG</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -45,11 +45,11 @@
                 </li>
             @endif
 
-            @if (Route::has('register'))
+            {{-- @if (Route::has('register'))
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                 </li>
-            @endif
+            @endif --}}
         @else
             <li class="nav-item dropdown">
                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

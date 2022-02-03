@@ -133,7 +133,7 @@
             })
 
             $.each(data, function (k,v) {
-                        console.log(v.info);
+                        console.log(v);
                         $.each(v.info, function (k,v) {
 
                     if ($('body #'+v.id_jenis_pasar+'')) {
@@ -144,7 +144,7 @@
                                     <div class="card">
                                         <div class="card-header border-0 alert alert-success">`+v.nama_kategori+`</div>
                                          <div class="card-body">`+v.harga+`/`+v.satuan+`</div>
-                                      <div class="card-footer">Naik</div>
+                                      <div class="card-footer"> ${v.selisih === 0 ? 'stabil' : v.selisih > 0 ? 'naik' : 'turun' }</div>
                                     </div>
                                 </div>
                             `)
