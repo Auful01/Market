@@ -45,53 +45,94 @@
         $('#modal-tambah-pasar').modal('show');
     })
 
+    // $('body').on('click', '#delete-pasar', function () {
+    //     var pasar = $(this).data('pasar');
+    //     console.log(pasar);
+    // })
+
+
+    $('body').on('click','#update-pasar', function () {
+        // var id = $(this).data('id')
+        // var pasar = $(this).data('pasar')
+        var id = $('#id').val()
+        var jns_psr = $('#jenis_pasar-edit').val()
+        console.log(id, jns_psr);
+        $.ajax({
+            url : '/update-pasar',
+            type : 'PUT',
+            data : {
+                '_token' : '{{ csrf_token() }}',
+                'id' : id,
+                'jenis_pasar' : jns_psr
+            },
+            success : function () {
+                // alert('success')
+                Swal.fire({
+                    title: 'Sukses!',
+                    text: 'Pasar baru telah ditambahkan',
+                    icon: 'success',
+                    timer : 2000,
+                    showConfirmButton : false,
+                    confirmButtonText : false,
+                    timerProgressBar : true
+                })
+
+                setTimeout(() => {
+                    window.location.reload()
+                }, 2000);
+            }
+        })
+    })
+
     $('body').on('click','#edit-pasar', function () {
         var id = $(this).data('id')
         var pasar = $(this).data('pasar')
         $('#modal-edit-pasar').modal('show');
+        $('#id').val(id)
         $('.jenis_pasar').val(pasar)
+        console.log(id);
 
     })
 
-    $('body').on('click','#delete-pasar', function () {
-        var id = $(this).data('id')
+//     $('body').on('click','#delete-pasar', function () {
+//         var id = $(this).data('pasar')
+//         console.log(id);
+//         const swalWithBootstrapButtons = Swal.mixin({
+//         customClass: {
+//             confirmButton: 'btn btn-success',
+//             cancelButton: 'btn btn-danger'
+//         },
+//         buttonsStyling: false
+//         })
 
-        const swalWithBootstrapButtons = Swal.mixin({
-  customClass: {
-    confirmButton: 'btn btn-success',
-    cancelButton: 'btn btn-danger'
-  },
-  buttonsStyling: false
-})
+//         swalWithBootstrapButtons.fire({
+//         title: 'Are you sure?',
+//         text: "You won't be able to revert this!",
+//         icon: 'warning',
+//         showCancelButton: true,
+//         confirmButtonText: 'Yes, delete it!',
+//         cancelButtonText: 'No, cancel!',
+//         reverseButtons: true
+//         }).then((result) => {
+//         if (result.isConfirmed) {
+//             swalWithBootstrapButtons.fire(
+//             'Deleted!',
+//             'Your file has been deleted.',
+//             'success'
+//             )
+//         } else if (
+//             /* Read more about handling dismissals below */
+//             result.dismiss === Swal.DismissReason.cancel
+//         ) {
+//             swalWithBootstrapButtons.fire(
+//             'Cancelled',
+//             'Your imaginary file is safe :)',
+//             'error'
+//             )
+//   }
+// })
 
-swalWithBootstrapButtons.fire({
-  title: 'Are you sure?',
-  text: "You won't be able to revert this!",
-  icon: 'warning',
-  showCancelButton: true,
-  confirmButtonText: 'Yes, delete it!',
-  cancelButtonText: 'No, cancel!',
-  reverseButtons: true
-}).then((result) => {
-  if (result.isConfirmed) {
-    swalWithBootstrapButtons.fire(
-      'Deleted!',
-      'Your file has been deleted.',
-      'success'
-    )
-  } else if (
-    /* Read more about handling dismissals below */
-    result.dismiss === Swal.DismissReason.cancel
-  ) {
-    swalWithBootstrapButtons.fire(
-      'Cancelled',
-      'Your imaginary file is safe :)',
-      'error'
-    )
-  }
-})
-
-    })
+//     })
     </script>
 @endsection
 
@@ -137,12 +178,13 @@ swalWithBootstrapButtons.fire({
         </div>
         <div class="modal-body">
           <form>
+              <input type="text" name="" id="id" hidden>
               <div class="form-group">
                   <label for="">Jenis Pasar</label>
-                <input type="text" class="form-control jenis_pasar" id="jenis_pasar" name="jenis_pasar">
+                <input type="text" class="form-control jenis_pasar" id="jenis_pasar-edit" name="jenis_pasar">
               </div>
 
-              <button type="button" id="save-pasar" class="btn btn-primary">
+              <button type="button" id="update-pasar" class="btn btn-primary">
                   save
               </button>
           </form>
@@ -196,7 +238,7 @@ swalWithBootstrapButtons.fire({
                    var tr = $('<tr>').append(
                        $('<td>').text(v.id_jenis_pasar),
                        $('<td>').text(v.nama_jenis_pasar),
-                       $('<td>').append($('<div class="row d-flex justify-content-start">').append($('<button class="btn btn-warning mr-2" id="edit-pasar" data-id="'+v.id_jenis_pasar+'" data-pasar="'+v.nama_jenis_pasar+'">').append($('<i class="far fa-trash-alt"></i>')), $('<button class="btn btn-danger" id="delete-pasar" data-pasar="'+v.id_jenis_pasar+'">').append($('<i class="far fa-trash-alt"></i>')) ))
+                       $('<td>').append($('<div class="row d-flex justify-content-start">').append($('<button class="btn btn-warning mr-2" id="edit-pasar" data-id="'+v.id_jenis_pasar+'" data-pasar="'+v.nama_jenis_pasar+'">').append($('<i class="fas fa-pencil-alt"></i>')) ))
                    ).appendTo('#myTable')
                 })
               }

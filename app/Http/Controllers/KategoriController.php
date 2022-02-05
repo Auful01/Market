@@ -87,13 +87,29 @@ class KategoriController extends Controller
 
     public function loadKategori()
     {
-        $kategori = DB::table('kategori')->join('komoditas', 'komoditas.id_komoditas', '=', 'kategori.id_komoditas')->select('komoditas.nama_komoditas', 'kategori.id_kategori', 'kategori.nama_kategori', 'kategori.satuan', 'kategori.harga_normal')->get();
+        $kategori = DB::table('kategori')->join('komoditas', 'komoditas.id_komoditas', '=', 'kategori.id_komoditas')->select('komoditas.nama_komoditas', 'kategori.id_komoditas', 'kategori.id_kategori', 'kategori.nama_kategori', 'kategori.satuan', 'kategori.harga_normal')->get();
         return $kategori;
     }
 
     public function findKategori(Request $request)
     {
-        $kategori = DB::table('kategori')->join('komoditas', 'komoditas.id_komoditas', '=', 'kategori.id_komoditas')->select('komoditas.nama_komoditas', 'kategori.id_kategori', 'kategori.nama_kategori', 'kategori.satuan', 'kategori.harga_normal')->where('kategori.id_komoditas', '=', $request->komoditas)->get();
+        $kategori = DB::table('kategori')->join('komoditas', 'komoditas.id_komoditas', '=', 'kategori.id_komoditas')->select('komoditas.nama_komoditas', 'kategori.id_komoditas', 'kategori.id_kategori', 'kategori.nama_kategori', 'kategori.satuan', 'kategori.harga_normal')->where('kategori.id_komoditas', '=', $request->komoditas)->orWhere('komoditas.nama_komoditas', '=', $request->komoditas)->get();
         return $kategori;
+    }
+
+    public function updateKategori(Request $request)
+    {
+        $kategori = Kategori::find($request->id_kategori);
+        $kategori->nama_kategori = $request->nama_kategori;
+        $kategori->harga_normal = $request->harga_normal;
+        $kategori->satuan = $request->satuan;
+        $kategori->id_komoditas = $request->id_komoditas;
+        $kategori->save();
+        return $kategori;
+    }
+
+    public function deleteKategori(Request $request)
+    {
+        return Kategori::find($request->kategori)->delete();
     }
 }

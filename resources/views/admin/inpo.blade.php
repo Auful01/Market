@@ -64,7 +64,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
 <script>
-setTimeout(loadInfo, 2000);
+
 
 
 
@@ -94,25 +94,17 @@ function loadInfo() {
                 {'data' : v.harga}
                 {'data' : v.selisih}
                 {'data' : v.harga_normal}
-                {'data' : $('<div class="row d-flex justify-content-start">').append($('<button class="btn btn-warning mr-2" id="edit-kategori" data-id="'+v.id_kategori+'" data-komoditas="'+v.id_kategori+'">').append($('<i class="far fa-trash-alt"></i>')), $('<button class="btn btn-danger" id="delete-kategori" data-komoditas="'+v.id_kategori+'">').append($('<i class="far fa-trash-alt"></i>')) ))}
+                {'data' : $('<div class="row d-flex justify-content-start">').append($('<button class="btn btn-warning mr-2" id="edit-info" data-id="'+v.id_kategori+'" data-komoditas="'+v.id_kategori+'">').append($('<i class="far fa-trash-alt"></i>')), $('<button class="btn btn-danger" id="delete-kategori" data-komoditas="'+v.id_kategori+'">').append($('<i class="far fa-trash-alt"></i>')) ))}
             ]
         )
-        // var tr = $('<tr>').append(
-        //     $('<td>').text(v.id_info),
-        //     $('<td>').text(v.nama_jenis_pasar),
-        //     $('<td>').text(v.nama_komoditas),
-        //     $('<td>').text(v.nama_kategori),
-        //     $('<td>').text(v.satuan),
-        //     $('<td>').text(v.sebelum),
-        //     $('<td>').text(v.harga),
-        //     $('<td>').text(v.selisih),
-        //     $('<td>').text(v.harga_normal),
-        //     $('<td>').append($('<div class="row d-flex justify-content-start">').append($('<button class="btn btn-warning mr-2" id="edit-kategori" data-id="'+v.id_kategori+'" data-komoditas="'+v.id_kategori+'">').append($('<i class="far fa-trash-alt"></i>')), $('<button class="btn btn-danger" id="delete-kategori" data-komoditas="'+v.id_kategori+'">').append($('<i class="far fa-trash-alt"></i>')) ))
-        // ).appendTo('#infoTable')
+
     })
     }
 })
+
 }
+
+setTimeout(loadInfo, 2000);
 
     $('#tambah-pasar').on('click', function () {
         $('#modal-tambah-pasar').modal('show')
@@ -137,6 +129,14 @@ function loadInfo() {
             }
         })
     })
+    $('body').on('click', '#edit-info', function () {
+        $('#modal-edit-info').modal('show')
+    })
+
+    $('body').on('click', '#update-pasar', function () {
+
+    })
+
 
     $('body').on('change', '#komoditas', function () {
         $('#kategori').empty()
@@ -226,6 +226,47 @@ function loadInfo() {
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <button id="save-pasar" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{-- EDIT --}}
+<div class="modal fade" id="modal-edit-info" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form >
+            <div class="form-group">
+                <label for="">Pasar</label>
+                <select name="pasar" id="pasar-edit" class="form-control"></select>
+            </div>
+            <div class="form-group">
+                <label for="">Komoditas</label>
+                <select name="komoditas" id="komoditas-edit" class="form-control"></select>
+            </div>
+            <div class="form-group">
+                <label for="">Kategori</label>
+                <select name="kategori" id="kategori-edit" class="form-control"></select>
+            </div>
+            <div class="form-group">
+                <label for="">Harga Hari ini</label>
+                <input type="text" id="harga-edit" name="harga" class="form-control">
+                {{-- <select name="kategori" id="kategori"></select> --}}
+            </div>
+
+
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button id="update-pasar" class="btn btn-primary">Save changes</button>
         </div>
       </div>
     </div>

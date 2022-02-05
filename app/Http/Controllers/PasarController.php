@@ -90,4 +90,15 @@ class PasarController extends Controller
         $pasar = DB::table('jenis_pasar')->select('*')->get();
         return $pasar;
     }
+
+    public function updatePasar(Request $request)
+    {
+        $pasar = DB::select('UPDATE jenis_pasar SET nama_jenis_pasar = "' . $request->jenis_pasar . '" WHERE id_jenis_pasar=' . $request->id . '');
+        return $pasar;
+    }
+
+    public function deletePasar(Request $request)
+    {
+        // return DB::select('DELETE FROM jenis_pasar WHERE id_jenis_pasar = ' . $request->id . '');
+    }
 }

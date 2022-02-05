@@ -90,4 +90,17 @@ class KomoditasController extends Controller
         $komoditas = Komoditas::all();
         return $komoditas;
     }
+
+    public function updateKomoditas(Request $request)
+    {
+        $komoditas = Komoditas::find($request->id);
+        $komoditas->nama_komoditas = $request->nama;
+        $komoditas->save();
+        return $komoditas;
+    }
+
+    public function deleteKomoditas(Request $request)
+    {
+        return Komoditas::find($request->komoditas)->delete();
+    }
 }

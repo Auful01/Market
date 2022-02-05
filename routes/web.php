@@ -32,8 +32,15 @@ Route::middleware('auth')->group(function () {
     Route::resource('informasi', InformasiController::class);
     Route::resource('info', InfoController::class);
     Route::get('load-info', [InfoController::class, 'loadInfo'])->name('load-info');
+    Route::delete('delete-info', [InfoController::class, 'deleteInfo'])->name('delete-info');
     Route::get('load-pasar', [PasarController::class, 'loadPasar'])->name('load-pasar');
+    Route::put('update-pasar', [PasarController::class, 'updatePasar'])->name('update-pasar');
+    // Route::delete('delete-pasar', [PasarController::class, 'deletePasar'])->name('delete-pasar');
     Route::get('load-komoditas', [KomoditasController::class, 'loadKomoditas'])->name('load-komoditas');
+    Route::put('update-komoditas', [KomoditasController::class, 'updateKomoditas'])->name('update-komoditas');
+    Route::delete('delete-komoditas', [KomoditasController::class, 'deleteKomoditas'])->name('delete-komoditas');
+    Route::put('update-kategori', [KategoriController::class, 'updateKategori'])->name('update-kategori');
+    Route::delete('delete-kategori', [KategoriController::class, 'deleteKategori'])->name('delete-kategori');
     Route::get('load-kategori', [KategoriController::class, 'loadKategori'])->name('load-kategori');
     Route::get('kategori-detail', [KategoriController::class, 'findKategori'])->name('kategori-detail');
     Route::resource('komoditas', KomoditasController::class);

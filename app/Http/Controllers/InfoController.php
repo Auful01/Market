@@ -98,4 +98,15 @@ class InfoController extends Controller
         return $info;
         // return $info;
     }
+
+    // public function updateInfo(Request $request)
+    // {
+    //     $info = DB::select('UPDATE info_harga SET id_jenis_pasar=' . $request->pasar . ' id_kategori=' . $request->kategori . ' harga=' . $request->harga . ' WHERE info_harga.id_info=' . $request->info .  '');
+    //     return $info;
+    // }
+
+    public function deleteInfo(Request $request)
+    {
+        return DB::select('DELETE FROM info_harga WHERE info_harga.id_info =' . $request->id . '');
+    }
 }
