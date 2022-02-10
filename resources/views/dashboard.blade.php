@@ -143,8 +143,12 @@
                                 <div class="col-md-3">
                                     <div class="card">
                                         <div class="card-header border-0 alert alert-success">`+v.nama_kategori+`</div>
-                                         <div class="card-body">`+v.harga+`/`+v.satuan+`</div>
-                                      <div class="card-footer"> ${v.selisih === 0 ? 'stabil' : v.selisih > 0 ? 'naik' : 'turun' }</div>
+                                         <div class="card-body">
+                                            <img src="{{asset('storage/`+ v.gambar +`')}}" style="height:100px">
+                                            <br>
+                                            `+v.harga+`/`+v.satuan+`
+                                            </div>
+                                      <div class="card-footer alert alert-success"> ${v.selisih === 0 ? 'stabil' : v.selisih > 0 ? 'naik' : 'turun' }</div>
                                     </div>
                                 </div>
                             `)

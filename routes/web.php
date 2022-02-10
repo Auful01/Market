@@ -39,7 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::get('load-komoditas', [KomoditasController::class, 'loadKomoditas'])->name('load-komoditas');
     Route::put('update-komoditas', [KomoditasController::class, 'updateKomoditas'])->name('update-komoditas');
     Route::delete('delete-komoditas', [KomoditasController::class, 'deleteKomoditas'])->name('delete-komoditas');
-    Route::put('update-kategori', [KategoriController::class, 'updateKategori'])->name('update-kategori');
+    Route::post('update-kategori', [KategoriController::class, 'updateKategori'])->name('update-kategori');
     Route::delete('delete-kategori', [KategoriController::class, 'deleteKategori'])->name('delete-kategori');
     Route::get('load-kategori', [KategoriController::class, 'loadKategori'])->name('load-kategori');
     Route::get('kategori-detail', [KategoriController::class, 'findKategori'])->name('kategori-detail');

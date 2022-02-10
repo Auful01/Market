@@ -36,7 +36,12 @@ class KategoriController extends Controller
      */
     public function store(Request $request)
     {
-        $kategori = DB::table('kategori')->insert(['id_komoditas' => $request->id_komoditas, 'nama_kategori' => $request->nama_kategori, 'satuan' => $request->satuan, 'harga_normal' => $request->harga_normal]);
+        // return $request->file('gambar');
+        if ($request->file('gambar')) {
+            $img = $request->file('gambar')->store('gambar', 'public');
+        }
+        // $img
+        $kategori = DB::table('kategori')->insert(['id_komoditas' => $request->id_komoditas, 'nama_kategori' => $request->nama_kategori, 'gambar' => $img,  'satuan' => $request->satuan, 'harga_normal' => $request->harga_normal]);
         return $kategori;
     }
 
@@ -87,7 +92,7 @@ class KategoriController extends Controller
 
     public function loadKategori()
     {
-        $kategori = DB::table('kategori')->join('komoditas', 'komoditas.id_komoditas', '=', 'kategori.id_komoditas')->select('komoditas.nama_komoditas', 'kategori.id_komoditas', 'kategori.id_kategori', 'kategori.nama_kategori', 'kategori.satuan', 'kategori.harga_normal')->get();
+        $kategori = DB::table('kategori')->join('komoditas', 'komoditas.id_komoditas', '=', 'kategori.id_komoditas')->select('komoditas.nama_komoditas', 'kategori.id_komoditas', 'kategori.id_kategori', 'kategori.nama_kategori', 'kategori.satuan', 'kategori.gambar', 'kategori.harga_normal')->get();
         return $kategori;
     }
 
@@ -99,10 +104,15 @@ class KategoriController extends Controller
 
     public function updateKategori(Request $request)
     {
+        // return $request;
+        if ($request->file('gambar')) {
+            $img = $request->file('gambar')->store('gambar', 'public');
+        }
         $kategori = Kategori::find($request->id_kategori);
         $kategori->nama_kategori = $request->nama_kategori;
         $kategori->harga_normal = $request->harga_normal;
         $kategori->satuan = $request->satuan;
+        $kategori->gambar = $img;
         $kategori->id_komoditas = $request->id_komoditas;
         $kategori->save();
         return $kategori;

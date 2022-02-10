@@ -53,6 +53,7 @@
                                 <th>#</th>
                                 <th>Komoditas</th>
                                 <th>Kategori</th>
+                                <th>Gambar</th>
                                 <th>Satuan</th>
                                 <th>Harga Normal</th>
                                 <th>Action</th>
@@ -163,12 +164,18 @@ $.ajax({
                                 {'data' : 'id_kategori'},
                                 {'data' : 'nama_komoditas'},
                                 {'data' : 'nama_kategori'},
+                                {'data' : 'gambar',
+                                    'render' : function (data, type, row) {
+                                        console.log(data);
+                                            return `<img src="{{asset('storage/`+ data + `')}}" style="height:100px">`
+                                    }},
                                 {'data' : 'satuan'},
                                 {'data' : 'harga_normal'},
                                 {'data' : 'id_komoditas',
                                     'render' : function (data, type,  row) {
                                         // console.log(row['nama_kategori']);
-                                        var tbl = `<div class="row d-flex justify-content-start"><button class="btn btn-warning mr-2" id="edit-kategori" data-id-kat=`+row['id_kategori']+` data-id-kom=`+data+` data-komoditas=`+row['nama_komoditas']+` data-satuan=`+row['satuan']+` data-harga=`+row['harga_normal']+` data-kategori="${row.nama_kategori}"><i class="fas fa-pencil-alt"></i></button><button class="btn btn-danger" id="delete-kategori" data-kategori=`+row['id_kategori']+` ><i class="far fa-trash-alt"></i></button>`
+                                        var gbr = row['gambar'];
+                                        var tbl = `<div class="row d-flex justify-content-start"><button class="btn btn-warning mr-2" id="edit-kategori"   data-id-kat=`+row['id_kategori']+` data-id-kom=`+data+` data-komoditas=`+row['nama_komoditas']+` data-satuan=`+row['satuan']+` data-harga=`+row['harga_normal']+` data-kategori="${row.nama_kategori}" data-gbr="{{ asset('storage/`+gbr+`')}}"><i class="fas fa-pencil-alt"></i></button><button class="btn btn-danger" id="delete-kategori" data-kategori=`+row['id_kategori']+` ><i class="far fa-trash-alt"></i></button>`
                                         return tbl
                                     }}
                                 // {'data' : 'id_kategori'}
@@ -285,13 +292,16 @@ $.ajax({
             var satuan = $(this).data('satuan')
             var idKat = $(this).data('id-kat')
             var idKom = $(this).data('id-kom')
+            var gbr = $(this).data('gbr')
 
             // console.log($(this).data('kategori'));
-            console.log(nama,harga,satuan,idKat,idKom);
+            console.log(nama,harga,satuan,idKat,idKom,gbr);
             $('body #nama_kategori-edit').val(nama)
             $('body #harga_normal-edit').val(harga)
             $('body #satuan-edit').val(satuan)
             $('body #ktgr').val(idKat)
+            // $('body #gambar').val(gbr)
+            $('body #gbr-pre').attr('src', gbr)
             $('#kmdt').empty()
             $.ajax({
                 url : '/load-komoditas',
@@ -358,6 +368,12 @@ $.ajax({
             })
         })
 
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+});
+
         $('body').on('click', '#update-kategori', function () {
             console.log(true);
             var nama_kategori = $('body #nama_kategori-edit').val()
@@ -365,19 +381,26 @@ $.ajax({
             var satuan = $('body #satuan-edit').val()
             var id_kategori = $('body #ktgr').val()
             var id_komoditi = $('body #kmdt').find(':selected').val()
+            var fd = new FormData()
+            var file = $('#gambar-edit')[0].files
+            fd.append('_token',"{{ csrf_token() }}")
+            fd.append('nama_kategori', nama_kategori)
+            fd.append('harga_normal', harga_normal)
+            fd.append('gambar', file[0])
+            fd.append('satuan', satuan)
+            fd.append('id_kategori', id_kategori)
+            fd.append('id_komoditas', id_komoditi)
             // consolelog(nama_kom);
+            // console.log(fd);
             // var id = $('#id_komoditas').val()
             $.ajax({
                 url : '/update-kategori',
-                type : 'PUT',
-                data : {
-                    '_token' : '{{csrf_token()}}',
-                    'nama_kategori' : nama_kategori,
-                    'harga_normal' : harga_normal,
-                    'satuan' : satuan,
-                    'id_kategori' : id_kategori,
-                    'id_komoditas' : id_komoditi
-                },
+                type : 'POST',
+                processData: false,
+                dataType : 'JSON',
+                contentType: false,
+                data : fd,
+
                 success : function () {
                     $('#modal-tambah-komoditas').modal('hide')
 
@@ -444,22 +467,32 @@ $.ajax({
         })
 
 
+
         $('body').on('click', '#save-kategori', function () {
             var komoditas = $('#komoditas').val()
             var nama_kategori = $('#nama_kategori').val()
             var satuan = $('#satuan').val()
             var harga_normal = $('#harga_normal').val()
+            var file = $('#gambar')[0].files;
+            var formdata = new FormData()
+            formdata.append('_token',"{{ csrf_token() }}")
+            formdata.append('id_komoditas',komoditas)
+            formdata.append('nama_kategori',nama_kategori)
+            formdata.append('filename',file[0]['name'])
+            formdata.append('gambar',file[0])
+            formdata.append('satuan',satuan)
+            formdata.append('harga_normal',harga_normal)
 
+            console.log(formdata);
+            // console.log($('#gambar').files);
             $.ajax({
                 url : '/kategori',
                 type: 'POST',
-                data : {
-                    '_token' : "{{ csrf_token() }}",
-                    'id_komoditas' : komoditas,
-                    'nama_kategori' : nama_kategori,
-                    'satuan' : satuan,
-                    'harga_normal' : harga_normal
-                },
+                processData: false,
+                dataType : 'JSON',
+                contentType: false,
+                data : formdata,
+
                 success : function (data) {
                     $('#modal-tambah-kategori').modal('hide')
                     // window.location.reload()
@@ -557,7 +590,7 @@ $.ajax({
           </button>
         </div>
         <div class="modal-body">
-          <form id="form-kategori">
+          <form id="form-kategori" enctype="multipart/form-data">
               <div class="form-group">
                   <label for="">Pilih Komoditas</label>
                   <select name="komoditas" id="komoditas" class="form-control"></select>
@@ -575,6 +608,10 @@ $.ajax({
               <div class="form-group">
                   <label for="">Harga Normal</label>
                   <input type="text" name="harga_normal" id="harga_normal" class="form-control">
+              </div>
+              <div class="form-group">
+                  <label for="">Gambar</label>
+                  <input type="file" name="gambar" id="gambar" class="form-control">
               </div>
 
               <button type="button" id="save-kategori" class="btn btn-primary">
@@ -597,7 +634,7 @@ $.ajax({
           </button>
         </div>
         <div class="modal-body">
-          <form id="form-kategori">
+          <form id="form-kategori" enctype="multipart/form-data">
               <div class="form-group">
                   <label for="">Pilih Komoditas</label>
                   <select name="kmdt" id="kmdt" class="form-control"></select>
@@ -616,7 +653,11 @@ $.ajax({
                   <label for="">Harga Normal</label>
                   <input type="text" name="harga_normal" id="harga_normal-edit" class="form-control">
               </div>
-
+              <div class="form-group">
+                <label for="">Gambar</label>
+                <input type="file" name="gambar" id="gambar-edit" class="form-control">
+                <img src="" id="gbr-pre" style="height: 100px" alt="">
+            </div>
               <button type="button" id="update-kategori" class="btn btn-primary">
                   save
               </button>
