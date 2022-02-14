@@ -84,6 +84,27 @@
         })
     })
 
+    function loadPasar() {
+
+$.ajax({
+    type:"GET",
+    url : "/load-pasar",
+    success : function (data) {
+        $('#body-pasar').empty()
+      $.each(data, function (k ,v) {
+         var tr = $('<tr>').append(
+             $('<td>').text(v.id_jenis_pasar),
+             $('<td>').text(v.nama_jenis_pasar),
+             $('<td>').append($('<div class="row d-flex justify-content-start">').append(
+                 $('<button class="btn btn-warning mr-2" id="edit-pasar" data-id="'+v.id_jenis_pasar+'" data-pasar="'+v.nama_jenis_pasar+'">').append($('<i class="fas fa-pencil-alt"></i>')),
+                 $('<button class="btn btn-danger mr-2" id="delete-pasar" data-id="'+v.id_jenis_pasar+'" data-pasar="'+v.nama_jenis_pasar+'">').append($('<i class="fas fa-trash-alt"></i>')) ),
+                 )
+         ).appendTo('#myTable')
+      })
+    }
+})
+}
+
     $('body').on('click','#edit-pasar', function () {
         var id = $(this).data('id')
         var pasar = $(this).data('pasar')
@@ -94,45 +115,56 @@
 
     })
 
-//     $('body').on('click','#delete-pasar', function () {
-//         var id = $(this).data('pasar')
-//         console.log(id);
-//         const swalWithBootstrapButtons = Swal.mixin({
-//         customClass: {
-//             confirmButton: 'btn btn-success',
-//             cancelButton: 'btn btn-danger'
-//         },
-//         buttonsStyling: false
-//         })
+    $('body').on('click','#delete-pasar', function () {
+        var id = $(this).data('id')
+        console.log(id);
+        const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+        })
 
-//         swalWithBootstrapButtons.fire({
-//         title: 'Are you sure?',
-//         text: "You won't be able to revert this!",
-//         icon: 'warning',
-//         showCancelButton: true,
-//         confirmButtonText: 'Yes, delete it!',
-//         cancelButtonText: 'No, cancel!',
-//         reverseButtons: true
-//         }).then((result) => {
-//         if (result.isConfirmed) {
-//             swalWithBootstrapButtons.fire(
-//             'Deleted!',
-//             'Your file has been deleted.',
-//             'success'
-//             )
-//         } else if (
-//             /* Read more about handling dismissals below */
-//             result.dismiss === Swal.DismissReason.cancel
-//         ) {
-//             swalWithBootstrapButtons.fire(
-//             'Cancelled',
-//             'Your imaginary file is safe :)',
-//             'error'
-//             )
-//   }
-// })
+        swalWithBootstrapButtons.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+        }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url : 'delete-pasar',
+                type : 'DELETE',
+                data : {
+                    "_token" : "{{ csrf_token() }}",
+                    "id" : id
+                },
+                success : function () {
+                    swalWithBootstrapButtons.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                    )
+                    setTimeout(loadPasar, 1000);
+                }
+            })
+        } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === Swal.DismissReason.cancel
+        ) {
+            swalWithBootstrapButtons.fire(
+            'Cancelled',
+            'Your imaginary file is safe :)',
+            'error'
+            )
+  }
+})
 
-//     })
+    })
     </script>
 @endsection
 
@@ -238,7 +270,10 @@
                    var tr = $('<tr>').append(
                        $('<td>').text(v.id_jenis_pasar),
                        $('<td>').text(v.nama_jenis_pasar),
-                       $('<td>').append($('<div class="row d-flex justify-content-start">').append($('<button class="btn btn-warning mr-2" id="edit-pasar" data-id="'+v.id_jenis_pasar+'" data-pasar="'+v.nama_jenis_pasar+'">').append($('<i class="fas fa-pencil-alt"></i>')) ))
+                       $('<td>').append($('<div class="row d-flex justify-content-start">').append(
+                           $('<button class="btn btn-warning mr-2" id="edit-pasar" data-id="'+v.id_jenis_pasar+'" data-pasar="'+v.nama_jenis_pasar+'">').append($('<i class="fas fa-pencil-alt"></i>')),
+                           $('<button class="btn btn-danger mr-2" id="delete-pasar" data-id="'+v.id_jenis_pasar+'" data-pasar="'+v.nama_jenis_pasar+'">').append($('<i class="fas fa-trash-alt"></i>')) ),
+                           )
                    ).appendTo('#myTable')
                 })
               }

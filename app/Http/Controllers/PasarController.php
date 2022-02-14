@@ -99,6 +99,7 @@ class PasarController extends Controller
 
     public function deletePasar(Request $request)
     {
-        // return DB::select('DELETE FROM jenis_pasar WHERE id_jenis_pasar = ' . $request->id . '');
+        DB::select('DELETE FROM info_harga WHERE id_jenis_pasar =' . $request->id .  '');
+        return DB::select('DELETE FROM jenis_pasar WHERE id_jenis_pasar = ' . $request->id . '');
     }
 }

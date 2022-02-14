@@ -137,7 +137,7 @@
                         $.each(v.info, function (k,v) {
 
                     if ($('body #'+v.id_jenis_pasar+'')) {
-                        console.log(v.id_jenis_pasar);
+                        console.log(v.selisih);
                         $('body #isi-highlits-'+v.id_jenis_pasar+'').append(`
 
                                 <div class="col-md-3">
@@ -148,7 +148,7 @@
                                             <br>
                                             `+v.harga+`/`+v.satuan+`
                                             </div>
-                                      <div class="card-footer alert alert-success"> ${v.selisih === 0 ? 'stabil' : v.selisih > 0 ? 'naik' : 'turun' }</div>
+                                      <div class="card-footer alert alert-success"> ${v.selisih === 0 ? 'stabil' : v.selisih > 0 ? 'naik' : 'turun' } (Rp. ` + v.selisih +`)</div>
                                     </div>
                                 </div>
                             `)
