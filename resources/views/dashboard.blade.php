@@ -106,7 +106,7 @@
                 <div class="carousel-item `+data[k]['pasar']['id_jenis_pasar']+`" id=`+data[k]['pasar']['id_jenis_pasar']+`>
                     <div class="row d-flex justify-content-center text-center mt-3">
                         <h3>Informasi Harga `+data[k]['pasar']['nama_jenis_pasar']+`</h3>
-                        <div class="card bg-light shadow mt-3" style="width: 80%; height: 700px;"  >
+                        <div class="card bg-light shadow mt-3" style="width: 80%; min-height: 700px;"  >
                             <div class="row px-4 py-5 " id="isi-highlits-`+data[k]['pasar']['id_jenis_pasar']+`">
                             </div>
                         </div>
