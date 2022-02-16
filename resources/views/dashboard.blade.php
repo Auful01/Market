@@ -224,8 +224,9 @@
                     a = 1;
                     b = 0;
                     // arharga[b] = []
+                    b++;
                     var tr = $('<tr>').append(
-                $('<td>').text(a),
+                $('<td>').text(b),
                 $('<td>').text(v.nama_komoditas + '('+v.nama_kategori+')'),
                 // $.each()
                 $('<td>').text(v.harga)
@@ -235,8 +236,8 @@
                  arharga.push(v.harga)
                  arkomo.push(v.nama_kategori)
                  console.log(arharga, arkomo);
-                b++;
-                a++;
+
+                // a++;
 
 
                 })
